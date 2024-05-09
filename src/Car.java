@@ -12,8 +12,8 @@ public class Car {
         happiness = hap;
     }
 
-    public void setWaitTime(int wt){
-        waitTime = wt;
+    public void addWaitTime(int wt){
+        waitTime += wt;
     }
 
     public int getWaitTime(){

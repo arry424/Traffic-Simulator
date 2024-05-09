@@ -4,6 +4,7 @@ import java.util.Queue;
 import java.util.LinkedList;
 public class Intersection {
     private ArrayList<Lane>[] lanes;
+    private ArrayList<Integer> waitList;
     private TrafficLight trafficLightHorizontal;
     private TrafficLight trafficLightVertical;
     private int prevTime = 0;
@@ -20,6 +21,7 @@ public class Intersection {
      */
     public Intersection(){
         lanes = new ArrayList[4];
+        waitList = new ArrayList<Integer>();
         for(int i = 0; i < lanes.length; i++) {
             lanes[i] = new ArrayList<Lane>();
             for(int j = 0; j < 2; j++){
@@ -42,12 +44,28 @@ public class Intersection {
                 lanes[dir].get(lane).addCar(new Car());
             } // adds a car to a random direction and a random lane in that direction
 
-            if(trafficLightVertical.getLight() == 3){ //green
+            if(trafficLightVertical.getLight() == 2){ //green
+                if(needChange(time,1)){
+                    trafficLightVertical.setLight(0);
+                    trafficLightHorizontal.setLight(0);
+                }
+                removeCars(0);
+                removeCars(2);
 
+                addWaitTimes(1);
+                addWaitTimes(3);
             }
 
-            if(trafficLightHorizontal.getLight() == 3){//green
+            else if(trafficLightHorizontal.getLight() == 2){//green
+                if(needChange(time,1)){
+                    trafficLightHorizontal.setLight(0);
+                    trafficLightVertical.setLight(2);
+                }
+                removeCars(1);
+                removeCars(3);
 
+                addWaitTimes(0);
+                addWaitTimes(2);
             }
 
             time++;
@@ -65,12 +83,19 @@ public class Intersection {
             else if(getDirSize(0) + getDirSize(2) >= (BAWKING_POINT/2) && time-prevTime > (MAX_TIME/2)){
                 return true;
             }
+            else if(getDirWaitTime(0) + getDirWaitTime(2) > (BAWKING_POINT*(2/3))) {
+                return true;
+            }
+
         }
         if(light == 1){ //vertical light
             if(getDirSize(1) + getDirSize(3) >= BAWKING_POINT){
                 return true;
             }
             else if(getDirSize(1) + getDirSize(3) >= (BAWKING_POINT/2) && time-prevTime > (MAX_TIME/2)){
+                return true;
+            }
+            else if(getDirWaitTime(1) + getDirWaitTime(3) > (BAWKING_POINT*(2/3))) {
                 return true;
             }
         }
@@ -94,5 +119,29 @@ private int getDirWaitTime(int dir){
     return output;
 }
 
+private void removeCars(int dir){
+        for(int i = 0; i < lanes[dir].size(); i++){
+            if(lanes[dir].get(i).getCar(0) != null) {
+                waitList.add(lanes[dir].get(i).getCar(0).getWaitTime());
+                lanes[dir].get(i).removeCar();
+            }
+        }
+}
+
+private void addWaitTimes(int lane){
+        for(int j = 0; j < lanes[lane].size(); j++){
+            for(int k = 0; k < lanes[lane].get(j).getSize(); k++)
+                lanes[lane].get(j).getCar(k).addWaitTime(1);
+        }
     }
+public int getTotalWaitTime(){
+        int output = 0;
+        for(int i = 0; i < waitList.size(); i++){
+            output += waitList.get(i);
+        }
+        return output;
+}
+}
+
+
 
