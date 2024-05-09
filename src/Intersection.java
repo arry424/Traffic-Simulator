@@ -6,6 +6,7 @@ public class Intersection {
     private ArrayList<Queue<Car>>[] lanes;
     private TrafficLight trafficLightHorizontal;
     private TrafficLight trafficLightVertical;
+    int prevTime = 0;
 
     /**
      * The intersection is represented by an array of lists of queues
@@ -29,6 +30,7 @@ public class Intersection {
 
     public void run(){
         int time = 0;
+
         while(time<1000){
 
             int percentCar = (int)(Math.random()*100+1);
@@ -48,5 +50,20 @@ public class Intersection {
 
             time++;
         }
+    }
+
+    public boolean needChange(int time, int light){
+        if(time - prevTime > 500){
+            return true;
+        }
+        if(light == 0){ //horizontal light
+
+        }
+        if(light == 1){ //vertical light
+
+        }
+
+        prevTime = time;
+        return false; //TODO the rest of this method
     }
 }
