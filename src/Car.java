@@ -22,6 +22,9 @@ public class Car {
         happiness = hap;
     }
 
+    public void addWaitTime(int wt) {
+        waitTime += wt;
+    }
     public void draw(Graphics g){
         g.setColor(Color.BLACK);
         g.fillRoundRect(xLoc, yLoc, 30,30,5,5);

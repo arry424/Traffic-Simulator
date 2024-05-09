@@ -7,7 +7,12 @@ import java.io.IOException;
 
 public class IntersectionTester {
     public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        System.out.println("Hello world!");
+        Intersection intersection = new Intersection();
+        intersection.run();
+        System.out.println("Total wait time: " + intersection.getTotalWaitTime());
+        System.out.println("Average wait time per car: " + intersection.getAverageWaitTime());
+
+        //System.out.println("Hello world!");
 
 
 
