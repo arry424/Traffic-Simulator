@@ -6,7 +6,9 @@ public class Intersection {
     private ArrayList<Lane>[] lanes;
     private TrafficLight trafficLightHorizontal;
     private TrafficLight trafficLightVertical;
-    int prevTime = 0;
+    private int prevTime = 0;
+    private final int BAWKING_POINT = 10;
+    private final int MAX_TIME = 500;
 
     /**
      * The intersection is represented by an array of lists of queues
@@ -52,21 +54,45 @@ public class Intersection {
         }
     }
 
-    public boolean needChange(int time, int light){
-        if(time - prevTime > 500){
+    private boolean needChange(int time, int light){
+        if(time - prevTime > MAX_TIME){
             return true;
         }
         if(light == 0){ //horizontal light
-
+            if(getDirSize(0) + getDirSize(2) >= BAWKING_POINT){
+                return true;
+            }
+            else if(getDirSize(0) + getDirSize(2) >= (BAWKING_POINT/2) && time-prevTime > (MAX_TIME/2)){
+                return true;
+            }
         }
         if(light == 1){ //vertical light
-
+            if(getDirSize(1) + getDirSize(3) >= BAWKING_POINT){
+                return true;
+            }
+            else if(getDirSize(1) + getDirSize(3) >= (BAWKING_POINT/2) && time-prevTime > (MAX_TIME/2)){
+                return true;
+            }
         }
 
         prevTime = time;
         return false; //TODO the rest of this method
     }
+private int getDirSize(int dir){
+        int output = 0;
+        for(int i = 0; i < lanes[dir].size(); i++){
+            output += lanes[dir].get(i).getSize();
+        }
+        return output;
+}
 
+private int getDirWaitTime(int dir){
+    int output = 0;
+    for(int i = 0; i < lanes[dir].size(); i++){
+        output += lanes[dir].get(i).getTotalWait();
+    }
+    return output;
+}
 
     }
 
