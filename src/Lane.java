@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 public class Lane {
-    private ArrayList<Car> lanes;
+    private ArrayList<Car> carLane;
     private int totalWait;
     public Lane(){
-        lanes = new ArrayList<Car>();
+        carLane = new ArrayList<Car>();
         totalWait = 0;
     }
 
@@ -11,27 +11,27 @@ public class Lane {
 
     public int getTotalWait(){
         totalWait = 0;
-        for (Car lane : lanes) {
+        for (Car lane : carLane) {
             totalWait += lane.getWaitTime();
         }
         return totalWait;
     }
 
     public void addCar(Car c){
-        lanes.add(c);
+        carLane.add(c);
     }
 
     public int getSize(){
-        return lanes.size();
+        return carLane.size();
     }
 
     public void removeCar(){
-        lanes.remove(0);
+        carLane.remove(0);
     }
 
     public Car getCar(int i){
 
-            return lanes.get(i);
+            return carLane.get(i);
 
     }
 }
