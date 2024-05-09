@@ -7,11 +7,13 @@ public class Lane {
         totalWait = 0;
     }
 
-    public void addWaitTime(int w){
-        totalWait += w;
-    }
+
 
     public int getTotalWait(){
+        totalWait = 0;
+        for (Car lane : lanes) {
+            totalWait += lane.getWaitTime();
+        }
         return totalWait;
     }
 
@@ -28,6 +30,8 @@ public class Lane {
     }
 
     public Car getCar(int i){
-        return lanes.get(i);
+
+            return lanes.get(i);
+
     }
 }

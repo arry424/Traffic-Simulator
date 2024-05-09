@@ -9,9 +9,10 @@ public class IntersectionTester {
     public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         Intersection intersection = new Intersection();
         intersection.run();
-        System.out.println(intersection.getTotalWaitTime());
+        System.out.println("Total wait time: " + intersection.getTotalWaitTime());
+        System.out.println("Average wait time per car: " + intersection.getAverageWaitTime());
 
-        System.out.println("Hello world!");
+        //System.out.println("Hello world!");
 
         SimpleAudioPlayer audioPlayer = new SimpleAudioPlayer("SFX/honk.wav",true);
         audioPlayer.play();
