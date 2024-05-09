@@ -1,10 +1,9 @@
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayList;
 public class Lane {
-    private Queue<Car> lanes;
+    private ArrayList<Car> lanes;
     private int totalWait;
     public Lane(){
-        lanes = new LinkedList<Car>();
+        lanes = new ArrayList<Car>();
         totalWait = 0;
     }
 
@@ -22,5 +21,13 @@ public class Lane {
 
     public int getSize(){
         return lanes.size();
+    }
+
+    public void removeCar(){
+        lanes.remove(0);
+    }
+
+    public Car getCar(int i){
+        return lanes.get(i);
     }
 }

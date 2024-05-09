@@ -67,15 +67,6 @@ public class Intersection {
         return false; //TODO the rest of this method
     }
 
-    public int getWaitTimeOfLane(int dir, int lane){
-        int output = 0;
-        for(int i = 1; i < lanes.length; i+=2){
-            for(int j = 0; j < lanes[i].size(); j++){
-                for(int k = 0; k < lanes[i].get(j).getSize(); k++){
-                    //output += (lanes[i].get(j)).get(k).getWaitTime();
-                }
-            }
-        }
-        return -1;
+
     }
-}
+
