@@ -1,6 +1,8 @@
+import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
 public class IntersectionTester {
@@ -13,9 +15,10 @@ public class IntersectionTester {
 
 
 
-        DrawingPanel panel = new DrawingPanel((int)screenSize.getWidth()-100,(int)screenSize.getHeight()-100 );
+        DrawingPanel panel = new DrawingPanel(600,600 );
 
         Car car = new Car();
         car.draw(panel.getGraphics());
+
     }
 }

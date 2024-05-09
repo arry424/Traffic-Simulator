@@ -1,14 +1,19 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class Car {
     private int waitTime;
     private int happiness;
     private  int xLoc;
     private int yLoc;
+    private Image sprite;
+
     public Car(){
         waitTime = 0;
         happiness = (int)(Math.random()*100+1);
-        xLoc = 600;
+        xLoc = 300;
         yLoc = 300;
     }
 
