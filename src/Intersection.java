@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.LinkedList;
 public class Intersection {
-    private ArrayList<Queue<Car>>[] lanes;
+    private ArrayList<Lane>[] lanes;
     private TrafficLight trafficLightHorizontal;
     private TrafficLight trafficLightVertical;
     int prevTime = 0;
@@ -19,9 +19,9 @@ public class Intersection {
     public Intersection(){
         lanes = new ArrayList[4];
         for(int i = 0; i < lanes.length; i++) {
-            lanes[i] = new ArrayList<Queue<Car>>();
+            lanes[i] = new ArrayList<Lane>();
             for(int j = 0; j < 2; j++){
-                lanes[i].add(new LinkedList<Car>());
+                lanes[i].add(new Lane());
             }
         }
         trafficLightHorizontal = new TrafficLight();
@@ -37,7 +37,7 @@ public class Intersection {
             if(percentCar <= 30){
                 int dir = (int)(Math.random()*4);
                 int lane = (int)(Math.random() * lanes[dir].size());
-                lanes[dir].get(lane).add(new Car());
+                lanes[dir].get(lane).addCar(new Car());
             } // adds a car to a random direction and a random lane in that direction
 
             if(trafficLightVertical.getLight() == 3){ //green
@@ -65,5 +65,17 @@ public class Intersection {
 
         prevTime = time;
         return false; //TODO the rest of this method
+    }
+
+    public int getWaitTimeOfLane(int dir, int lane){
+        int output = 0;
+        for(int i = 1; i < lanes.length; i+=2){
+            for(int j = 0; j < lanes[i].size(); j++){
+                for(int k = 0; k < lanes[i].get(j).getSize(); k++){
+                    //output += (lanes[i].get(j)).get(k).getWaitTime();
+                }
+            }
+        }
+        return -1;
     }
 }
