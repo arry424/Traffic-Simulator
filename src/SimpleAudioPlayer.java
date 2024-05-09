@@ -65,7 +65,7 @@ public class SimpleAudioPlayer
     {
         try
         {
-            filePath = "SFX/happy.wav";
+            filePath = "SFX/honk.wav";
             SimpleAudioPlayer audioPlayer =
                     new SimpleAudioPlayer();
 
