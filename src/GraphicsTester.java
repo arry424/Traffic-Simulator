@@ -27,8 +27,8 @@ public class GraphicsTester {
 
 
 
-            drawCarVeriticle(panel.getGraphics(), 430, i,Color.pink);
-            drawCarVeriticle(panel.getGraphics(),480,i-10,Color.CYAN.darker());
+            drawCarVertical(panel.getGraphics(), 430, i,Color.pink);
+            drawCarVertical(panel.getGraphics(),480,i-10,Color.CYAN.darker());
 
 
             Thread.sleep(10);
@@ -37,7 +37,7 @@ public class GraphicsTester {
 
     }
 
-    public static void drawCarVeriticle(Graphics g, int x, int y, Color c){
+    public static void drawCarVertical(Graphics g, int x, int y, Color c){
         g.setColor(c);
         g.fillRoundRect(x-15, y-30, 30,60, 10,10);
         g.fillRoundRect(x-20,y-10,40,10,10,10);
