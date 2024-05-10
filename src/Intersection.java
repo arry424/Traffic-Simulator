@@ -100,7 +100,7 @@ public class Intersection {
 
     private boolean needChange(int light){
         /**
-         * If the amount of people waiting is RATIO times those that can move AND they have waited over RATIO times the amount of max wait time combined
+         * If the amount of people waiting is RATIO times those that can move AND they have waited over max wait time/RATIO combined
          * If the amount of people waiting have a combined wait time larger than the max time
          * If the amount of people waiting is very small, but they have waited longer than a ratio of the max time
          */
