@@ -8,13 +8,14 @@ public class Car {
     private int happiness;
     private  int xLoc;
     private int yLoc;
-    private Image sprite;
+    private Color color;
 
     public Car(){
         waitTime = 0;
         happiness = (int)(Math.random()*100+1);
         xLoc = 300;
         yLoc = 300;
+        color = Color.RED;
     }
 
     public Car(int wt, int hap){
@@ -33,6 +34,8 @@ public class Car {
     public void setWaitTime(int wt){
         waitTime = wt;
     }
+
+    public void setColor(Color c){color = c;}
 
     public int getWaitTime(){
         return waitTime;

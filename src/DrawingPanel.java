@@ -82,7 +82,7 @@ public class DrawingPanel extends FileFilter
     public static final String MULTIPLE_PROPERTY   = "drawingpanel.multiple";
     public static final String SAVE_PROPERTY       = "drawingpanel.save";
     public static final String ANIMATION_FILE_NAME = "_drawingpanel_animation_save.txt";
-    private static final String TITLE              = "DrawingPanel";
+    private static final String TITLE              = "Traffic Simulator";
     private static final String COURSE_WEB_SITE = "http://www.cs.washington.edu/education/courses/cse142/CurrentQtr/drawingpanel.txt";
     private static final int DELAY                 = 100;     // delay between repaints in millis
     private static final int MAX_FRAMES            = 100;     // max animation frames
@@ -408,8 +408,9 @@ public class DrawingPanel extends FileFilter
             JOptionPane.showMessageDialog(frame,
                     "DrawingPanel\n" +
                             "Graphical library class to support Building Java Programs textbook\n" +
-                            "written by Marty Stepp and Stuart Reges\n" +
-                            "University of Washington\n\n" +
+                            "Traffic-Simulator written by Harrison W & Shawn Johnson\n"+
+                            "Jpanel interface written by Marty Stepp and Stuart Reges\n" +
+                            "Glenbrook North High School & University of Washington\n\n" +
                             "please visit our web site at:\n" +
                             "http://www.buildingjavaprograms.com/",
 
@@ -930,7 +931,7 @@ public class DrawingPanel extends FileFilter
     }
 
     // sets the text that will appear in the bottom status bar
-    private void setStatusBarText(String text) {
+    public void setStatusBarText(String text) {
         if (currentZoom != 1) {
             text += " (current zoom: " + currentZoom + "x" + ")";
         }

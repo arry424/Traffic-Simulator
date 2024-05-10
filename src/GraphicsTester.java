@@ -4,7 +4,7 @@ import java.awt.*;
 import java.io.IOException;
 
 public class GraphicsTester {
-    public static void main(String args[]) throws UnsupportedAudioFileException, LineUnavailableException, IOException, InterruptedException {
+    public static synchronized void main(String args[]) throws UnsupportedAudioFileException, LineUnavailableException, IOException, InterruptedException {
         SimpleAudioPlayer audioPlayer = new SimpleAudioPlayer("SFX/honk.wav", false);
         audioPlayer.play();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -13,25 +13,31 @@ public class GraphicsTester {
         DrawingPanel panel = new DrawingPanel(800, 800);
         panel.getGraphics().setColor(Color.green.darker().darker());
         panel.getGraphics().fillRect(0,0,800,800);
+
+
         while(true){
         for(int i = 800; i >0; i--) {
 
+            if(i==540)
+                Thread.sleep(1000);
             drawRoadUp(panel.getGraphics(), 2);
             drawRoadDown(panel.getGraphics(),2);
             drawRoadLeft(panel.getGraphics(),2);
             drawRoadRight(panel.getGraphics(),2);
 
-            drawCarVeriticle(panel.getGraphics(), 430, i,Color.pink);
-            drawCarVeriticle(panel.getGraphics(),475,i-10,Color.CYAN.darker());
 
 
-            Thread.sleep(20);
+            drawCarVertical(panel.getGraphics(), 430, i,Color.pink);
+            drawCarVertical(panel.getGraphics(),480,i-10,Color.CYAN.darker());
+
+
+            Thread.sleep(10);
         }
         }
 
     }
 
-    public static void drawCarVeriticle(Graphics g, int x, int y, Color c){
+    public static void drawCarVertical(Graphics g, int x, int y, Color c){
         g.setColor(c);
         g.fillRoundRect(x-15, y-30, 30,60, 10,10);
         g.fillRoundRect(x-20,y-10,40,10,10,10);

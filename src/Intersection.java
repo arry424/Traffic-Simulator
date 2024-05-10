@@ -1,4 +1,5 @@
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Intersection {
@@ -6,9 +7,25 @@ public class Intersection {
     private ArrayList<Integer> waitList;
     private TrafficLight trafficLightHorizontal;
     private TrafficLight trafficLightVertical;
-    //private int prevTime = 0;
-    private final int BAWKING_POINT = 10;
-    private final int MAX_TIME = 50;
+    private int prevTime = 0;
+    private boolean moveSprites;
+    private DrawingPanel panel;
+
+    //private final int BALKING_POINT = 10; // used to be used as a check, but it never mattered to the output from what I can tell
+    /**
+     * The variables to mess with
+     * Max time - how long can the combined number of cars at a red be waiting til it auto flips
+     * Ratio  - for specific cases when the amount of cars waiting is 'Ratio times' more or less than those that can go
+     *          - When the amount of cars waiting is less than 2, but the time collective waited is a ratio of the max time
+     *          - When the amount of cars waiting is double the amount of cars driving, and the collective time waited is half the max time
+     * Density - how many cars are showing up. For example, a density of 50 means there is a 50 percent chance a car shows up
+     *           each of the add attempts. Currently, add is attempted 5 times.
+     * numLanes - the number of lanes per direction
+     */
+    private final int MAX_TIME = 100;
+    private final int RATIO = 2;
+    private final int DENSITY = 50;
+    private final int numLanes = 2;
 
     /**
      * The intersection is represented by an array of lists of queues
@@ -21,9 +38,13 @@ public class Intersection {
     public Intersection(){
         lanes = new ArrayList[4];
         waitList = new ArrayList<Integer>();
+        panel = new DrawingPanel(800, 800);
+        panel.getGraphics().setColor(Color.green.darker().darker());
+        panel.getGraphics().fillRect(0,0,800,800);
+
         for(int i = 0; i < lanes.length; i++) {
             lanes[i] = new ArrayList<Lane>();
-            for(int j = 0; j < 2; j++){
+            for(int j = 0; j < numLanes; j++){
                 lanes[i].add(new Lane());
             }
         }
@@ -37,19 +58,22 @@ public class Intersection {
         while(time<1000){
             System.out.println("Time.... " + time);
 
-            int percentCar = (int)(Math.random()*100+1);
-            if(percentCar <= 100){
-                int dir = (int)(Math.random()*lanes.length);
-                int lane = (int)(Math.random() * lanes[dir].size());
-                lanes[dir].get(lane).addCar(new Car());
-                System.out.println("Added a car to the.... " + dir + " direction, and the " + lane + " lane");
-            } // adds a car to a random direction and a random lane in that direction
+            for(int i = 0; i < 5; i++) { //Maximum chance of 5 new cars added, dependent on the randomizer and the density stat
+                int percentCar = (int) (Math.random() * 100 + 1);
+                if (percentCar <= DENSITY) {
+                    int dir = (int) (Math.random() * lanes.length);
+                    int lane = (int) (Math.random() * lanes[dir].size());
+                    lanes[dir].get(lane).addCar(new Car());
+                    System.out.println("Added a car to the.... " + dir + " direction, and the " + lane + " lane");
+                } // adds a car to a random direction and a random lane in that direction
+            }
 
             if(trafficLightVertical.getLight() == 2){ //green
-                if(needChange(1)){ // vertical
+                if(needChange(1) && (time-prevTime > (MAX_TIME/4))){ // vertical
                     System.out.println("Vertical Light was green, now switched to red");
                     trafficLightVertical.setLight(0);
                     trafficLightHorizontal.setLight(2);
+                    prevTime = time;
                 }
                 else {
                     removeCars(0);
@@ -58,10 +82,11 @@ public class Intersection {
                 addWaitTimes();
             }
             else if(trafficLightHorizontal.getLight() == 2){//green
-                if(needChange(0)){
+                if(needChange(0) && (time-prevTime > (MAX_TIME/4))){
                     System.out.println("Horizontal Light was green, now switched to red");
                     trafficLightHorizontal.setLight(0);
                     trafficLightVertical.setLight(2);
+                    prevTime = time;
                 }
                 else {
                     removeCars(1);
@@ -74,15 +99,25 @@ public class Intersection {
     }
 
     private boolean needChange(int light){
-
+        /**
+         * If the amount of people waiting is RATIO times those that can move AND they have waited over max wait time/RATIO combined
+         * If the amount of people waiting have a combined wait time larger than the max time
+         * If the amount of people waiting is very small, but they have waited longer than a ratio of the max time
+         */
         if(light == 0){ //horizontal light
-            if(getDirSize(0) + getDirSize(2) >= BAWKING_POINT || getDirWaitTime(0) + getDirWaitTime(2) > (MAX_TIME)){
+            if((getDirSize(0) + getDirSize(2) > ((getDirSize(1) + getDirSize(3))*RATIO)&& getDirWaitTime(0) + getDirWaitTime(2) > (MAX_TIME/RATIO) )||  getDirWaitTime(0) + getDirWaitTime(2) > (MAX_TIME)){
+                return true;
+            }
+            if(getDirSize(0) + getDirSize(2) <= 2 && getDirWaitTime(0) + getDirWaitTime(2) > (MAX_TIME/(RATIO*.75))){
                 return true;
             }
 
         }
         if(light == 1){ //vertical light
-            if(getDirSize(1) + getDirSize(3) >= BAWKING_POINT || getDirWaitTime(1) + getDirWaitTime(3) > (MAX_TIME)){
+            if((getDirSize(1) + getDirSize(3) > ((getDirSize(0) + getDirSize(2))*RATIO) && getDirWaitTime(1) + getDirWaitTime(3) > (MAX_TIME/RATIO)) || getDirWaitTime(1) + getDirWaitTime(3) > (MAX_TIME)){
+                return true;
+            }
+            if(getDirSize(1) + getDirSize(3) <= 2 && getDirWaitTime(1) + getDirWaitTime(3) > (MAX_TIME/(RATIO*.75))){
                 return true;
             }
         }
@@ -95,7 +130,7 @@ public class Intersection {
             output += lanes[dir].get(i).getSize();
         }
         return output;
-}
+    }
 
     private int getDirWaitTime(int dir){
         int output = 0;
@@ -113,7 +148,7 @@ public class Intersection {
                 lanes[dir].get(i).removeCar();
             }
         }
-}
+    }
 
     private void addWaitTimes(){
        for(int dir = 0; dir < lanes.length; dir++) {
@@ -123,6 +158,12 @@ public class Intersection {
            }
        }
     }
+
+    public boolean carsInPlace(){
+        return false;
+        //TODO: finish this method.
+    }
+
 
     public int getTotalWaitTime(){
         int output = 0;
