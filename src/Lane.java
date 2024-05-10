@@ -7,12 +7,10 @@ public class Lane {
         totalWait = 0;
     }
 
-
-
     public int getTotalWait(){
         totalWait = 0;
-        for (Car lane : carLane) {
-            totalWait += lane.getWaitTime();
+        for (Car car : carLane) {
+            totalWait += car.getWaitTime();
         }
         return totalWait;
     }
