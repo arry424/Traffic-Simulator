@@ -1,4 +1,5 @@
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Intersection {
@@ -7,6 +8,9 @@ public class Intersection {
     private TrafficLight trafficLightHorizontal;
     private TrafficLight trafficLightVertical;
     private int prevTime = 0;
+    private boolean moveSprites;
+    private DrawingPanel panel;
+
     //private final int BALKING_POINT = 10; // used to be used as a check, but it never mattered to the output from what I can tell
     /**
      * The variables to mess with
@@ -34,6 +38,10 @@ public class Intersection {
     public Intersection(){
         lanes = new ArrayList[4];
         waitList = new ArrayList<Integer>();
+        panel = new DrawingPanel(800, 800);
+        panel.getGraphics().setColor(Color.green.darker().darker());
+        panel.getGraphics().fillRect(0,0,800,800);
+
         for(int i = 0; i < lanes.length; i++) {
             lanes[i] = new ArrayList<Lane>();
             for(int j = 0; j < numLanes; j++){
@@ -150,6 +158,12 @@ public class Intersection {
            }
        }
     }
+
+    public boolean carsInPlace(){
+        return false;
+        //TODO: finish this method.
+    }
+
 
     public int getTotalWaitTime(){
         int output = 0;
