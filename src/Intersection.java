@@ -1,7 +1,6 @@
 
 import java.util.ArrayList;
-import java.util.Queue;
-import java.util.LinkedList;
+
 public class Intersection {
     private ArrayList<Lane>[] lanes;
     private ArrayList<Integer> waitList;
@@ -9,7 +8,7 @@ public class Intersection {
     private TrafficLight trafficLightVertical;
     //private int prevTime = 0;
     private final int BAWKING_POINT = 10;
-    private final int MAX_TIME = 100;
+    private final int MAX_TIME = 50;
 
     /**
      * The intersection is represented by an array of lists of queues
@@ -39,8 +38,8 @@ public class Intersection {
             System.out.println("Time.... " + time);
 
             int percentCar = (int)(Math.random()*100+1);
-            if(percentCar <= 30){
-                int dir = (int)(Math.random()*4);
+            if(percentCar <= 100){
+                int dir = (int)(Math.random()*lanes.length);
                 int lane = (int)(Math.random() * lanes[dir].size());
                 lanes[dir].get(lane).addCar(new Car());
                 System.out.println("Added a car to the.... " + dir + " direction, and the " + lane + " lane");
@@ -55,12 +54,8 @@ public class Intersection {
                 else {
                     removeCars(0);
                     removeCars(2);
-
-                    addWaitTimes(0);
-                    addWaitTimes(1);
-                    addWaitTimes(2);
-                    addWaitTimes(3);
                 }
+                addWaitTimes();
             }
             else if(trafficLightHorizontal.getLight() == 2){//green
                 if(needChange(0)){
@@ -71,14 +66,9 @@ public class Intersection {
                 else {
                     removeCars(1);
                     removeCars(3);
-
-                    addWaitTimes(0);
-                    addWaitTimes(1);
-                    addWaitTimes(2);
-                    addWaitTimes(3);
                 }
+                addWaitTimes();
             }
-
             time++;
         }
     }
@@ -86,19 +76,13 @@ public class Intersection {
     private boolean needChange(int light){
 
         if(light == 0){ //horizontal light
-            if(getDirSize(0) + getDirSize(2) >= BAWKING_POINT){
-                return true;
-            }
-            if(getDirWaitTime(0) + getDirWaitTime(2) > (MAX_TIME)) {
+            if(getDirSize(0) + getDirSize(2) >= BAWKING_POINT || getDirWaitTime(0) + getDirWaitTime(2) > (MAX_TIME)){
                 return true;
             }
 
         }
         if(light == 1){ //vertical light
-            if(getDirSize(1) + getDirSize(3) >= BAWKING_POINT){
-                return true;
-            }
-            if(getDirWaitTime(1) + getDirWaitTime(3) > (MAX_TIME)) {
+            if(getDirSize(1) + getDirSize(3) >= BAWKING_POINT || getDirWaitTime(1) + getDirWaitTime(3) > (MAX_TIME)){
                 return true;
             }
         }
@@ -113,15 +97,15 @@ public class Intersection {
         return output;
 }
 
-private int getDirWaitTime(int dir){
-    int output = 0;
-    for(int i = 0; i < lanes[dir].size(); i++){
-        output += lanes[dir].get(i).getTotalWait();
+    private int getDirWaitTime(int dir){
+        int output = 0;
+        for(int i = 0; i < lanes[dir].size(); i++){
+          output += lanes[dir].get(i).getTotalWait();
+     }
+        return output;
     }
-    return output;
-}
 
-private void removeCars(int dir){
+    private void removeCars(int dir){
         for(int i = 0; i < lanes[dir].size(); i++){
             if(lanes[dir].get(i).getSize() > 0 && lanes[dir].get(i).getCar(0) != null) {
                 waitList.add(lanes[dir].get(i).getCar(0).getWaitTime());
@@ -131,24 +115,28 @@ private void removeCars(int dir){
         }
 }
 
-private void addWaitTimes(int lane){
-        for(int j = 0; j < lanes[lane].size(); j++){
-            for(int k = 0; k < lanes[lane].get(j).getSize(); k++)
-                lanes[lane].get(j).getCar(k).addWaitTime(1);
-        }
+    private void addWaitTimes(){
+       for(int dir = 0; dir < lanes.length; dir++) {
+           for (int lane = 0; lane < lanes[dir].size(); lane++) {
+               for (int car = 0; car < lanes[dir].get(lane).getSize(); car++)
+                   lanes[dir].get(lane).getCar(car).addWaitTime(1);
+           }
+       }
     }
-public int getTotalWaitTime(){
+
+    public int getTotalWaitTime(){
         int output = 0;
-        for(int i = 0; i < waitList.size(); i++){
-            output += waitList.get(i);
-        }
+        for (Integer integer : waitList)
+            output += integer;
+        for(int i = 0; i < lanes.length; i++)
+            output += getDirWaitTime(i);
         return output;
+    }
+
+    public int getAverageWaitTime(){
+        int sizeLeft = 0;
+        for(int i = 0; i < lanes.length; i++)
+            sizeLeft += getDirSize(i);
+        return getTotalWaitTime()/(waitList.size()+sizeLeft);
+    }
 }
-
-public int getAverageWaitTime(){
-      return getTotalWaitTime()/waitList.size();
-}
-}
-
-
-
