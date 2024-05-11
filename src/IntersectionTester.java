@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class IntersectionTester {
-    public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException, InterruptedException {
         Intersection intersection = new Intersection();
         intersection.run();
         System.out.println("Total wait time: " + intersection.getTotalWaitTime());

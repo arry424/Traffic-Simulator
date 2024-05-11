@@ -13,7 +13,8 @@ public class GraphicsTester {
         DrawingPanel panel = new DrawingPanel(800, 800);
         panel.getGraphics().setColor(Color.green.darker().darker());
         panel.getGraphics().fillRect(0,0,800,800);
-
+        GraphicsEngine.drawCarRight(panel.getGraphics(),100,100,Color.MAGENTA);
+        GraphicsEngine.drawCarLeft(panel.getGraphics(), 200,100, Color.MAGENTA);
 
         while(true){
         for(int i = 800; i >0; i--) {

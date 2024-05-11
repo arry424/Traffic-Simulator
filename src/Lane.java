@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 public class Lane {
     private ArrayList<Car> carLane;
@@ -32,4 +33,13 @@ public class Lane {
             return carLane.get(i);
 
     }
+
+    //graphics stuff
+    public void drawSelfUp(Graphics g){}
+
+    public void drawSelfDown(Graphics g){}
+
+    public void drawSelfLeft(Graphics g){}
+
+    public void drawSelfRight(Graphics g){}
 }

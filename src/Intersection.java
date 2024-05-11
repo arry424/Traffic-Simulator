@@ -38,9 +38,8 @@ public class Intersection {
     public Intersection(){
         lanes = new ArrayList[4];
         waitList = new ArrayList<Integer>();
+
         panel = new DrawingPanel(800, 800);
-        panel.getGraphics().setColor(Color.green.darker().darker());
-        panel.getGraphics().fillRect(0,0,800,800);
 
         for(int i = 0; i < lanes.length; i++) {
             lanes[i] = new ArrayList<Lane>();
@@ -52,11 +51,30 @@ public class Intersection {
         trafficLightVertical = new TrafficLight(2);
     }
 
-    public void run(){
+    public synchronized void  run() throws InterruptedException {
         int time = 0;
 
         while(time<1000){
             System.out.println("Time.... " + time);
+
+            panel.getGraphics().setColor(Color.green.darker().darker()); //green background
+            panel.getGraphics().fillRect(0,0,800,800);//also background
+
+            //Draw lanes
+            GraphicsEngine.drawRoadUp(panel.getGraphics(), lanes[0].size());
+            GraphicsEngine.drawRoadDown(panel.getGraphics(), lanes[2].size());
+            GraphicsEngine.drawRoadLeft(panel.getGraphics(), lanes[1].size());
+            GraphicsEngine.drawRoadRight(panel.getGraphics(), lanes[3].size());
+
+            //Draw Cars that are in the on-load sequence
+            for(Lane l : lanes[0])
+                l.drawSelfUp(panel.getGraphics());
+            for(Lane l: lanes[2])
+                l.drawSelfDown(panel.getGraphics());
+            for(Lane l: lanes[1])
+                l.drawSelfLeft(panel.getGraphics());
+            for(Lane l : lanes[3])
+                l.drawSelfRight(panel.getGraphics());
 
             for(int i = 0; i < 5; i++) { //Maximum chance of 5 new cars added, dependent on the randomizer and the density stat
                 int percentCar = (int) (Math.random() * 100 + 1);
@@ -95,6 +113,7 @@ public class Intersection {
                 addWaitTimes();
             }
             time++;
+            Thread.sleep(20);
         }
     }
 

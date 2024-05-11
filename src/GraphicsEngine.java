@@ -46,6 +46,20 @@ public class GraphicsEngine {
 
     }
 
+    public static void drawCarLeft(Graphics g, int x, int y, Color c){
+        g.setColor(c);
+        g.fillRoundRect(x-30,y-15,  60,30, 10,10);
+        g.fillRoundRect(x-10,y-20,10,40,10,10);
+        g.setColor(Color.BLACK);
+        g.fillRoundRect(x-20,y-13,40,26,10,10);
+        g.fillRoundRect(x+2,y-13,23,26,10,10);
+        g.setColor(c);
+        g.fillRect(x-5,y-14,17,28);
+        g.setColor(Color.ORANGE);
+        g.fillRoundRect(x-30,y-15,5,5,10,10);
+        g.fillRoundRect(x-30,y+10,5,5,10,10);
+    }
+
     public static void drawRoadUp(Graphics g, int lanes){
         g.setColor(Color.GRAY);
         g.fillRect(410,0,lanes*(45),800);
