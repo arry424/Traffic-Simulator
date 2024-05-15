@@ -67,14 +67,14 @@ public class Intersection {
             GraphicsEngine.drawRoadRight(panel.getGraphics(), lanes[3].size());
 
             //Draw Cars that are in the on-load sequence
-            for(Lane l : lanes[0])
-                l.drawSelfUp(panel.getGraphics());
-            for(Lane l: lanes[2])
-                l.drawSelfDown(panel.getGraphics());
-            for(Lane l: lanes[1])
-                l.drawSelfLeft(panel.getGraphics());
-            for(Lane l : lanes[3])
-                l.drawSelfRight(panel.getGraphics());
+            for(int i = 0; i< lanes[0].size(); i++)
+                lanes[0].get(i).drawSelfUp(panel.getGraphics(),i);
+            for(int i = 0; i< lanes[2].size(); i++)
+                lanes[2].get(i).drawSelfDown(panel.getGraphics(),i);
+            for(int i = 0; i< lanes[1].size(); i++)
+                lanes[1].get(i).drawSelfLeft(panel.getGraphics(),i);
+            for(int i = 0; i< lanes[3].size(); i++)
+                lanes[3].get(i).drawSelfRight(panel.getGraphics(),i);
 
             for(int i = 0; i < 5; i++) { //Maximum chance of 5 new cars added, dependent on the randomizer and the density stat
                 int percentCar = (int) (Math.random() * 100 + 1);

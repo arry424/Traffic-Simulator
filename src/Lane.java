@@ -3,10 +3,15 @@ import java.util.ArrayList;
 public class Lane {
     private ArrayList<Car> carLane;
     private int totalWait;
+    private boolean isGreen;
     public Lane(){
         carLane = new ArrayList<Car>();
         totalWait = 0;
+        isGreen=false;
     }
+
+    public boolean getIsGreen(){return isGreen;}
+    public void setIsGreen(boolean a){isGreen = a;}
 
     public int getTotalWait(){
         totalWait = 0;
@@ -35,11 +40,39 @@ public class Lane {
     }
 
     //graphics stuff
-    public void drawSelfUp(Graphics g){}
+    public void drawSelfUp(Graphics g,int laneNum){
+        if(isGreen)
+            for(Car c: carLane){
+                c.moveUp();
+            }
+        for(Car c: carLane)
+            c.drawUp(g, laneNum);
+    }
 
-    public void drawSelfDown(Graphics g){}
+    public void drawSelfDown(Graphics g, int laneNum){
+        if(isGreen)
+            for(Car c: carLane){
+                c.moveDown();
+            }
+        for(Car c: carLane)
+            c.drawDown(g, laneNum);
+    }
 
-    public void drawSelfLeft(Graphics g){}
+    public void drawSelfLeft(Graphics g, int laneNum){
+        if(isGreen)
+            for(Car c: carLane){
+                c.moveLeft();
+            }
+        for(Car c: carLane)
+            c.drawLeft(g, laneNum);
+    }
 
-    public void drawSelfRight(Graphics g){}
+    public void drawSelfRight(Graphics g, int laneNum){
+        if(isGreen)
+            for(Car c: carLane){
+                c.moveRight();
+            }
+        for(Car c: carLane)
+            c.drawRight(g, laneNum);
+    }
 }
