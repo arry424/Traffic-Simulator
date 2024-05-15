@@ -26,10 +26,26 @@ public class Car {
     public void addWaitTime(int wt) {
         waitTime += wt;
     }
-    public void draw(Graphics g){
-        g.setColor(Color.BLACK);
-        g.fillRoundRect(xLoc, yLoc, 30,30,5,5);
+
+    //RunTime Graphics Callings
+    public void drawUp(Graphics g,int lanePos){
+        GraphicsEngine.drawCarUp(g,xLoc,yLoc,color);
     }
+    public void drawDown(Graphics g,int lanePos){
+        GraphicsEngine.drawCarDown(g,xLoc,yLoc,color);
+    }
+    public void drawLeft(Graphics g,int lanePos){
+        GraphicsEngine.drawCarLeft(g,xLoc,yLoc,color);
+    }
+    public void drawRight(Graphics g,int lanePos){
+        GraphicsEngine.drawCarRight(g,xLoc,yLoc,color);
+    }
+
+    //position updaters
+    public void moveUp(){yLoc+=2;}
+    public void moveDown(){yLoc-=2;}
+    public void moveLeft(){xLoc-=2;}
+    public void moveRight(){xLoc+=2;}
 
     public void setWaitTime(int wt){
         waitTime = wt;
@@ -48,6 +64,9 @@ public class Car {
     public void setHappiness(int happiness) {
         this.happiness = happiness;
     }
+
+    public void setXLoc(int x){xLoc = x;}
+    public void setYLoc(int y){yLoc = y;}
 
     //TODO Make a toString that prints something that looks nice
 

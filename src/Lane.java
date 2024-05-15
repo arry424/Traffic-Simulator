@@ -21,8 +21,22 @@ public class Lane {
         return totalWait;
     }
 
-    public void addCar(Car c){
+    public void addCar(Car c,int dir, int lane){
+        if(dir == 0){
+            c.setYLoc(800);
+            c.setXLoc(425 + lane*45);}
+        if(dir == 2){
+            c.setYLoc(0);
+            c.setXLoc(375 - lane*45);}
+        if(dir == 1){
+            c.setXLoc(800);
+            c.setYLoc(375 - lane*45);}
+        if(dir == 3){
+            c.setXLoc(0);
+            c.setYLoc(425 + lane*45);}
+
         carLane.add(c);
+
     }
 
     public int getSize(){
@@ -60,8 +74,8 @@ public class Lane {
 
     public void drawSelfLeft(Graphics g, int laneNum){
         if(isGreen)
-            for(Car c: carLane){
-                c.moveLeft();
+            for(int i = 0; i< carLane.size(); i++){
+                carLane.get(i).moveLeft();
             }
         for(Car c: carLane)
             c.drawLeft(g, laneNum);
@@ -69,10 +83,10 @@ public class Lane {
 
     public void drawSelfRight(Graphics g, int laneNum){
         if(isGreen)
-            for(Car c: carLane){
-                c.moveRight();
+            for(int i = 0; i< carLane.size(); i++){
+                carLane.get(i).moveRight();
             }
-        for(Car c: carLane)
-            c.drawRight(g, laneNum);
+        for(int i = 0; i< carLane.size(); i++)
+            carLane.get(i).drawRight(g, laneNum);
     }
 }

@@ -56,7 +56,7 @@ public class Intersection {
     public synchronized void  run() throws InterruptedException {
         int time = 0;
 
-        while(time<1000){
+        while(time<1000000){
             System.out.println("Time.... " + time);
 
             panel.getGraphics().setColor(Color.green.darker().darker()); //green background
@@ -77,53 +77,51 @@ public class Intersection {
                 lanes[1].get(i).drawSelfLeft(panel.getGraphics(),i);
             for(int i = 0; i< lanes[3].size(); i++)
                 lanes[3].get(i).drawSelfRight(panel.getGraphics(),i);
+            if(time%100 == 0) {
+                for (int i = 0; i < 5; i++) { //Maximum chance of 5 new cars added, dependent on the randomizer and the density stat
+                    int percentCar = (int) (Math.random() * 100 + 1);
+                    if (percentCar <= DENSITY) {
+                        int dir = (int) (Math.random() * lanes.length);
+                        int lane = (int) (Math.random() * lanes[dir].size());
+                        lanes[dir].get(lane).addCar(new Car(), dir, lane);
+                        System.out.println("Added a car to the.... " + dir + " direction, and the " + lane + " lane");
+                    } // adds a car to a random direction and a random lane in that direction
+                }
 
-            for(int i = 0; i < 5; i++) { //Maximum chance of 5 new cars added, dependent on the randomizer and the density stat
-                int percentCar = (int) (Math.random() * 100 + 1);
-                if (percentCar <= DENSITY) {
-                    int dir = (int) (Math.random() * lanes.length);
-                    int lane = (int) (Math.random() * lanes[dir].size());
-                    lanes[dir].get(lane).addCar(new Car());
-                    System.out.println("Added a car to the.... " + dir + " direction, and the " + lane + " lane");
-                } // adds a car to a random direction and a random lane in that direction
-            }
-
-            if(trafficLightVertical.getLight() == 2){ //green
-                if(needChange(1) && (time-prevTime > (MAX_TIME/4))){ // vertical
-                    System.out.println("Vertical Light was green, now switched to red");
-                    trafficLightVertical.setLight(0);
-                    trafficLightHorizontal.setLight(2);
-                    setIsGreen(0,false);
-                    setIsGreen(1,true);
-                    setIsGreen(2,false);
-                    setIsGreen(3,true);
-                    prevTime = time;
+                if (trafficLightVertical.getLight() == 2) { //green
+                    if (needChange(1) && (time - prevTime > (MAX_TIME / 4))) { // vertical
+                        System.out.println("Vertical Light was green, now switched to red");
+                        trafficLightVertical.setLight(0);
+                        trafficLightHorizontal.setLight(2);
+                        setIsGreen(0, false);
+                        setIsGreen(1, true);
+                        setIsGreen(2, false);
+                        setIsGreen(3, true);
+                        prevTime = time;
+                    } else {
+                        removeCars(0);
+                        removeCars(2);
+                    }
+                    addWaitTimes();
+                } else if (trafficLightHorizontal.getLight() == 2) {//green
+                    if (needChange(0) && (time - prevTime > (MAX_TIME / 4))) {
+                        System.out.println("Horizontal Light was green, now switched to red");
+                        trafficLightHorizontal.setLight(0);
+                        trafficLightVertical.setLight(2);
+                        setIsGreen(0, true);
+                        setIsGreen(1, false);
+                        setIsGreen(2, true);
+                        setIsGreen(3, false);
+                        prevTime = time;
+                    } else {
+                        removeCars(1);
+                        removeCars(3);
+                    }
+                    addWaitTimes();
                 }
-                else {
-                    removeCars(0);
-                    removeCars(2);
-                }
-                addWaitTimes();
-            }
-            else if(trafficLightHorizontal.getLight() == 2){//green
-                if(needChange(0) && (time-prevTime > (MAX_TIME/4))){
-                    System.out.println("Horizontal Light was green, now switched to red");
-                    trafficLightHorizontal.setLight(0);
-                    trafficLightVertical.setLight(2);
-                    setIsGreen(0,true);
-                    setIsGreen(1,false);
-                    setIsGreen(2,true);
-                    setIsGreen(3,false);
-                    prevTime = time;
-                }
-                else {
-                    removeCars(1);
-                    removeCars(3);
-                }
-                addWaitTimes();
             }
             time++;
-            Thread.sleep(20);
+            Thread.sleep(10);
         }
     }
 
