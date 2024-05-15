@@ -42,8 +42,8 @@ public class Car {
     }
 
     //position updaters
-    public void moveUp(){yLoc+=2;}
-    public void moveDown(){yLoc-=2;}
+    public void moveUp(){yLoc-=2;}
+    public void moveDown(){yLoc+=2;}
     public void moveLeft(){xLoc-=2;}
     public void moveRight(){xLoc+=2;}
 

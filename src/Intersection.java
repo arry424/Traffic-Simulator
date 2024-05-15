@@ -80,6 +80,10 @@ public class Intersection {
                 lanes[1].get(i).drawSelfLeft(panel.getGraphics(),i);
             for(int i = 0; i< lanes[3].size(); i++)
                 lanes[3].get(i).drawSelfRight(panel.getGraphics(),i);
+
+
+
+
             if(time%100 == 0) {
                 for (int i = 0; i < 5; i++) { //Maximum chance of 5 new cars added, dependent on the randomizer and the density stat
                     int percentCar = (int) (Math.random() * 100 + 1);
@@ -88,6 +92,7 @@ public class Intersection {
                         int lane = (int) (Math.random() * lanes[dir].size());
                         lanes[dir].get(lane).addCar(new Car(), dir, lane);
                         System.out.println("Added a car to the.... " + dir + " direction, and the " + lane + " lane");
+
                     } // adds a car to a random direction and a random lane in that direction
                 }
 
@@ -171,6 +176,7 @@ public class Intersection {
     }
 
     private void removeCars(int dir){
+
         for(int i = 0; i < lanes[dir].size(); i++){
             if(lanes[dir].get(i).getSize() > 0 && lanes[dir].get(i).getCar(0) != null) {
                 waitList.add(lanes[dir].get(i).getCar(0).getWaitTime());

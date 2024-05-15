@@ -58,8 +58,8 @@ public class Lane {
     //graphics stuff
     public void drawSelfUp(Graphics g,int laneNum){
         if(isGreen)
-            for(Car c: carLane){
-                c.moveUp();
+            for (int i = 0; i < carLane.size(); i++) {
+                carLane.get(i).moveUp();
             }
         else {
             for(int i = 0; i< carLane.size(); i++){
@@ -72,8 +72,8 @@ public class Lane {
 
     public void drawSelfDown(Graphics g, int laneNum){
             if (isGreen)
-                for (Car c : carLane) {
-                    c.moveDown();
+                for (int i = 0; i < carLane.size(); i++) {
+                    carLane.get(i).moveDown();
                 }
             else {
                 for (int i = 0; i < carLane.size(); i++) {
