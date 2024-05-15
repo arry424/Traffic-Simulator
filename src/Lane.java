@@ -63,7 +63,7 @@ public class Lane {
             }
         else {
             for(int i = 0; i< carLane.size(); i++){
-                if(carLane.get(i).getYLoc()  >= 500+ i*(100))
+                if(carLane.get(i).getYLoc()  >= 530+ i*(100))
                     carLane.get(i).moveUp();
             }}
         for(Car c: carLane)
@@ -77,39 +77,68 @@ public class Lane {
                 }
             else {
                 for (int i = 0; i < carLane.size(); i++) {
-                    if (carLane.get(i).getYLoc() <= 300 - i * (100))
+                    if (carLane.get(i).getYLoc() <= 270 - i * (100))
                         carLane.get(i).moveDown();
                 }}
                 for (Car c : carLane)
                     c.drawDown(g, laneNum);
             }
 
-            public void drawSelfLeft (Graphics g,int laneNum){
-                if (isGreen)
+    public void drawSelfLeft (Graphics g,int laneNum){
+           if (isGreen)
                     for (int i = 0; i < carLane.size(); i++) {
                         carLane.get(i).moveLeft();
                     }
-                else {
+           else {
                     for (int i = 0; i < carLane.size(); i++) {
-                        if (carLane.get(i).getXLoc()  >= 500+ i * (100))
+                        if (carLane.get(i).getXLoc()  >= 530+ i * (100))
                             carLane.get(i).moveLeft();
                     }}
 
-                for (Car c : carLane)
+           for (Car c : carLane)
                     c.drawLeft(g, laneNum);
             }
 
-            public void drawSelfRight (Graphics g,int laneNum){
-                if (isGreen)
-                    for (int i = 0; i < carLane.size(); i++) {
+    public void drawSelfRight (Graphics g,int laneNum){
+           if (isGreen)
+               for (int i = 0; i < carLane.size(); i++) {
                         carLane.get(i).moveRight();
                     }
-                else {
-                    for (int i = 0; i < carLane.size(); i++) {
-                        if (carLane.get(i).getXLoc()  <= 300- i * (100))
+           else {
+                for (int i = 0; i < carLane.size(); i++) {
+                        if (carLane.get(i).getXLoc()  <= 270- i * (100))
                             carLane.get(i).moveRight();
-                    }}
-                    for (int i = 0; i < carLane.size(); i++)
+                    }
+           }
+                for (int i = 0; i < carLane.size(); i++)
                         carLane.get(i).drawRight(g, laneNum);
+    }
+
+
+    public boolean shouldRemove(int dir) {
+                switch (dir) {
+                    case 0:
+                        if (!(carLane.get(0).getYLoc() >= 500))
+                            return true;
+                        else
+                            break;
+                    case 2:
+                        if (!(carLane.get(0).getYLoc() <= 300))
+                            return true;
+                        else
+                            break;
+                    case 3:
+                        if (!(carLane.get(0).getXLoc() <= 300))
+                            return true;
+                        else
+                            break;
+                    case 1:
+                        if (!(carLane.get(0).getXLoc() >= 500))
+                            return true;
+                        else
+                            break;
+
                 }
+                return false;
             }
+}

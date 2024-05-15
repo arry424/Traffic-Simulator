@@ -81,6 +81,21 @@ public class Intersection {
             for(int i = 0; i< lanes[3].size(); i++)
                 lanes[3].get(i).drawSelfRight(panel.getGraphics(),i);
 
+            //Draws offLoad
+            for(int i = 0; i< offLanes[0].size(); i++){
+                offLanes[0].get(i).moveUp();
+                offLanes[0].get(i).drawUp(panel.getGraphics(),i);}
+            for(int i = 0; i< offLanes[2].size(); i++){
+                offLanes[2].get(i).moveDown();
+                offLanes[2].get(i).drawDown(panel.getGraphics(),i);}
+            for(int i = 0; i< offLanes[1].size(); i++){
+                offLanes[1].get(i).moveLeft();
+                offLanes[1].get(i).drawLeft(panel.getGraphics(),i);}
+            if (!offLanes[3].isEmpty())
+            for(int i = 0; i < lanes[3].size(); i++){
+                offLanes[3].get(i).moveRight();
+                offLanes[3].get(i).drawRight(panel.getGraphics(),i);}
+
 
 
 
@@ -107,8 +122,8 @@ public class Intersection {
                         setIsGreen(3, true);
                         prevTime = time;
                     } else {
-                        removeCars(0);
-                        removeCars(2);
+                        //removeCars(0);
+                        //removeCars(2);
                     }
                     addWaitTimes();
                 } else if (trafficLightHorizontal.getLight() == 2) {//green
@@ -122,12 +137,16 @@ public class Intersection {
                         setIsGreen(3, false);
                         prevTime = time;
                     } else {
-                        removeCars(1);
-                        removeCars(3);
+                        //removeCars(1);
+                        //removeCars(3);
                     }
                     addWaitTimes();
                 }
             }
+            removeCars(0);
+            removeCars(2);
+            removeCars(1);
+            removeCars(3);
             time++;
             Thread.sleep(10);
         }
@@ -178,7 +197,7 @@ public class Intersection {
     private void removeCars(int dir){
 
         for(int i = 0; i < lanes[dir].size(); i++){
-            if(lanes[dir].get(i).getSize() > 0 && lanes[dir].get(i).getCar(0) != null) {
+            if(lanes[dir].get(i).getSize() > 0 && lanes[dir].get(i).getCar(0) != null && lanes[dir].get(i).shouldRemove(dir)) {
                 waitList.add(lanes[dir].get(i).getCar(0).getWaitTime());
                 System.out.println("Removed the car in direction " + dir + " and lane " + i + " with wait time " + lanes[dir].get(i).getCar(0).getWaitTime());
                 offLanes[dir].add(lanes[dir].get(i).removeCar());
@@ -195,10 +214,6 @@ public class Intersection {
        }
     }
 
-    public boolean carsInPlace(){
-        return false;
-        //TODO: finish this method.
-    }
 
 
     public int getTotalWaitTime(){

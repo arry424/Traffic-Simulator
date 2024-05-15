@@ -15,7 +15,7 @@ public class Car {
         happiness = (int)(Math.random()*100+1);
         xLoc = 300;
         yLoc = 300;
-        color = Color.RED;
+        color = new Color((int)(225*Math.random()),(int)(225*Math.random()),(int)(225*Math.random()));
     }
 
     public Car(int wt, int hap){
