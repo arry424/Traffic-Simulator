@@ -10,6 +10,7 @@ public class Intersection {
     private int prevTime = 0;
     private boolean moveSprites;
     private DrawingPanel panel;
+    private ArrayList<Car>[] offLanes;
 
     //private final int BALKING_POINT = 10; // used to be used as a check, but it never mattered to the output from what I can tell
     /**
@@ -37,12 +38,14 @@ public class Intersection {
      */
     public Intersection(){
         lanes = new ArrayList[4];
+        offLanes = new ArrayList[4];
         waitList = new ArrayList<Integer>();
 
         panel = new DrawingPanel(800, 800);
 
         for(int i = 0; i < lanes.length; i++) {
             lanes[i] = new ArrayList<Lane>();
+            offLanes[i] = new ArrayList<Car>();
             for(int j = 0; j < numLanes; j++){
                 lanes[i].add(new Lane());
             }
@@ -172,7 +175,7 @@ public class Intersection {
             if(lanes[dir].get(i).getSize() > 0 && lanes[dir].get(i).getCar(0) != null) {
                 waitList.add(lanes[dir].get(i).getCar(0).getWaitTime());
                 System.out.println("Removed the car in direction " + dir + " and lane " + i + " with wait time " + lanes[dir].get(i).getCar(0).getWaitTime());
-                lanes[dir].get(i).removeCar();
+                offLanes[dir].add(lanes[dir].get(i).removeCar());
             }
         }
     }

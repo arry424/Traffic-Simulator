@@ -43,8 +43,10 @@ public class Lane {
         return carLane.size();
     }
 
-    public void removeCar(){
+    public Car removeCar(){
+        Car temp = carLane.get(0);
         carLane.remove(0);
+        return temp;
     }
 
     public Car getCar(int i){
