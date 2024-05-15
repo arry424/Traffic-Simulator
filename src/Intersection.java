@@ -49,6 +49,8 @@ public class Intersection {
         }
         trafficLightHorizontal = new TrafficLight();
         trafficLightVertical = new TrafficLight(2);
+        setIsGreen(0,true);
+        setIsGreen(2,true);
     }
 
     public synchronized void  run() throws InterruptedException {
@@ -91,6 +93,10 @@ public class Intersection {
                     System.out.println("Vertical Light was green, now switched to red");
                     trafficLightVertical.setLight(0);
                     trafficLightHorizontal.setLight(2);
+                    setIsGreen(0,false);
+                    setIsGreen(1,true);
+                    setIsGreen(2,false);
+                    setIsGreen(3,true);
                     prevTime = time;
                 }
                 else {
@@ -104,6 +110,10 @@ public class Intersection {
                     System.out.println("Horizontal Light was green, now switched to red");
                     trafficLightHorizontal.setLight(0);
                     trafficLightVertical.setLight(2);
+                    setIsGreen(0,true);
+                    setIsGreen(1,false);
+                    setIsGreen(2,true);
+                    setIsGreen(3,false);
                     prevTime = time;
                 }
                 else {
@@ -198,5 +208,11 @@ public class Intersection {
         for(int i = 0; i < lanes.length; i++)
             sizeLeft += getDirSize(i);
         return getTotalWaitTime()/(waitList.size()+sizeLeft);
+    }
+
+    private void setIsGreen(int lane, boolean b){
+        for(int i = 0; i < lanes[lane].size(); i++){
+            lanes[lane].get(i).setIsGreen(b);
+        }
     }
 }
