@@ -91,10 +91,9 @@ public class Intersection {
             for(int i = 0; i< offLanes[1].size(); i++){
                 offLanes[1].get(i).moveLeft();
                 offLanes[1].get(i).drawLeft(panel.getGraphics(),i);}
-            if (!offLanes[3].isEmpty())
-            for(int i = 0; i < lanes[3].size(); i++){
-                offLanes[3].get(i).moveRight();
-                offLanes[3].get(i).drawRight(panel.getGraphics(),i);}
+            for(int i = 0; i < offLanes[3].size(); i++){
+                    offLanes[3].get(i).moveRight();
+                    offLanes[3].get(i).drawRight(panel.getGraphics(),i);}
 
 
 
