@@ -47,6 +47,14 @@ public class Car {
     public void moveLeft(){xLoc-=2;}
     public void moveRight(){xLoc+=2;}
 
+    public int getXLoc() {
+        return xLoc;
+    }
+
+    public int getYLoc() {
+        return yLoc;
+    }
+
     public void setWaitTime(int wt){
         waitTime = wt;
     }

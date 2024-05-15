@@ -61,34 +61,55 @@ public class Lane {
             for(Car c: carLane){
                 c.moveUp();
             }
+        else {
+            for(int i = 0; i< carLane.size(); i++){
+                if(carLane.get(i).getYLoc()  >= 500+ i*(100))
+                    carLane.get(i).moveUp();
+            }}
         for(Car c: carLane)
             c.drawUp(g, laneNum);
     }
 
     public void drawSelfDown(Graphics g, int laneNum){
-        if(isGreen)
-            for(Car c: carLane){
-                c.moveDown();
+            if (isGreen)
+                for (Car c : carLane) {
+                    c.moveDown();
+                }
+            else {
+                for (int i = 0; i < carLane.size(); i++) {
+                    if (carLane.get(i).getYLoc() <= 300 - i * (100))
+                        carLane.get(i).moveDown();
+                }}
+                for (Car c : carLane)
+                    c.drawDown(g, laneNum);
             }
-        for(Car c: carLane)
-            c.drawDown(g, laneNum);
-    }
 
-    public void drawSelfLeft(Graphics g, int laneNum){
-        if(isGreen)
-            for(int i = 0; i< carLane.size(); i++){
-                carLane.get(i).moveLeft();
-            }
-        for(Car c: carLane)
-            c.drawLeft(g, laneNum);
-    }
+            public void drawSelfLeft (Graphics g,int laneNum){
+                if (isGreen)
+                    for (int i = 0; i < carLane.size(); i++) {
+                        carLane.get(i).moveLeft();
+                    }
+                else {
+                    for (int i = 0; i < carLane.size(); i++) {
+                        if (carLane.get(i).getXLoc()  >= 500+ i * (100))
+                            carLane.get(i).moveLeft();
+                    }}
 
-    public void drawSelfRight(Graphics g, int laneNum){
-        if(isGreen)
-            for(int i = 0; i< carLane.size(); i++){
-                carLane.get(i).moveRight();
+                for (Car c : carLane)
+                    c.drawLeft(g, laneNum);
             }
-        for(int i = 0; i< carLane.size(); i++)
-            carLane.get(i).drawRight(g, laneNum);
-    }
-}
+
+            public void drawSelfRight (Graphics g,int laneNum){
+                if (isGreen)
+                    for (int i = 0; i < carLane.size(); i++) {
+                        carLane.get(i).moveRight();
+                    }
+                else {
+                    for (int i = 0; i < carLane.size(); i++) {
+                        if (carLane.get(i).getXLoc()  <= 300- i * (100))
+                            carLane.get(i).moveRight();
+                    }}
+                    for (int i = 0; i < carLane.size(); i++)
+                        carLane.get(i).drawRight(g, laneNum);
+                }
+            }
