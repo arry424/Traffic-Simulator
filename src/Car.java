@@ -9,6 +9,7 @@ public class Car {
     private  int xLoc;
     private int yLoc;
     private Color color;
+    private int turn;
 
     public Car(){
         waitTime = 0;
@@ -16,6 +17,12 @@ public class Car {
         xLoc = 300;
         yLoc = 300;
         color = new Color((int)(225*Math.random()),(int)(225*Math.random()),(int)(225*Math.random()));
+        /**
+         * 0 is straight
+         * -1 is left turn
+         * 1 is right turn
+         */
+        turn = 0;
     }
 
     public Car(int wt, int hap){
@@ -75,6 +82,14 @@ public class Car {
 
     public void setXLoc(int x){xLoc = x;}
     public void setYLoc(int y){yLoc = y;}
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
 
     //TODO Make a toString that prints something that looks nice
 

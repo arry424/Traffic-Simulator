@@ -118,22 +118,22 @@ public class Lane {
     public boolean shouldRemove(int dir) {
                 switch (dir) {
                     case 0:
-                        if (!(carLane.get(0).getYLoc() >= 500))
+                        if (!(carLane.get(0).getYLoc() >= 480))
                             return true;
                         else
                             break;
                     case 2:
-                        if (!(carLane.get(0).getYLoc() <= 300))
+                        if (!(carLane.get(0).getYLoc() <= 320))
                             return true;
                         else
                             break;
                     case 3:
-                        if (!(carLane.get(0).getXLoc() <= 300))
+                        if (!(carLane.get(0).getXLoc() <= 320))
                             return true;
                         else
                             break;
                     case 1:
-                        if (!(carLane.get(0).getXLoc() >= 500))
+                        if (!(carLane.get(0).getXLoc() >= 480))
                             return true;
                         else
                             break;

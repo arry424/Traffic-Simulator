@@ -27,6 +27,7 @@ public class Intersection {
     private final int RATIO = 2;
     private final int DENSITY = 50;
     private final int numLanes = 2;
+    private final int turnChance = 50;
 
     /**
      * The intersection is represented by an array of lists of queues
@@ -58,12 +59,13 @@ public class Intersection {
 
     public synchronized void  run() throws InterruptedException {
         int time = 0;
+        int yellowLightTime = 0;
 
-        while(time<1000000){
+        while(time<1000000) {
             System.out.println("Time.... " + time);
 
             panel.getGraphics().setColor(Color.green.darker().darker()); //green background
-            panel.getGraphics().fillRect(0,0,800,800);//also background
+            panel.getGraphics().fillRect(0, 0, 800, 800);//also background
 
             //Draw lanes
             GraphicsEngine.drawRoadUp(panel.getGraphics(), lanes[0].size());
@@ -72,67 +74,75 @@ public class Intersection {
             GraphicsEngine.drawRoadRight(panel.getGraphics(), lanes[3].size());
 
             //Draw Cars that are in the on-load sequence
-            for(int i = 0; i< lanes[0].size(); i++)
-                lanes[0].get(i).drawSelfUp(panel.getGraphics(),i);
-            for(int i = 0; i< lanes[2].size(); i++)
-                lanes[2].get(i).drawSelfDown(panel.getGraphics(),i);
-            for(int i = 0; i< lanes[1].size(); i++)
-                lanes[1].get(i).drawSelfLeft(panel.getGraphics(),i);
-            for(int i = 0; i< lanes[3].size(); i++)
-                lanes[3].get(i).drawSelfRight(panel.getGraphics(),i);
+            for (int i = 0; i < lanes[0].size(); i++)
+                lanes[0].get(i).drawSelfUp(panel.getGraphics(), i);
+            for (int i = 0; i < lanes[2].size(); i++)
+                lanes[2].get(i).drawSelfDown(panel.getGraphics(), i);
+            for (int i = 0; i < lanes[1].size(); i++)
+                lanes[1].get(i).drawSelfLeft(panel.getGraphics(), i);
+            for (int i = 0; i < lanes[3].size(); i++)
+                lanes[3].get(i).drawSelfRight(panel.getGraphics(), i);
 
             //Draws offLoad
-            for(int i = 0; i< offLanes[0].size(); i++){
+            for (int i = 0; i < offLanes[0].size(); i++) {
                 offLanes[0].get(i).moveUp();
-                offLanes[0].get(i).drawUp(panel.getGraphics(),i);}
-            for(int i = 0; i< offLanes[2].size(); i++){
+                offLanes[0].get(i).drawUp(panel.getGraphics(), i);
+            }
+            for (int i = 0; i < offLanes[2].size(); i++) {
                 offLanes[2].get(i).moveDown();
-                offLanes[2].get(i).drawDown(panel.getGraphics(),i);}
-            for(int i = 0; i< offLanes[1].size(); i++){
+                offLanes[2].get(i).drawDown(panel.getGraphics(), i);
+            }
+            for (int i = 0; i < offLanes[1].size(); i++) {
                 offLanes[1].get(i).moveLeft();
-                offLanes[1].get(i).drawLeft(panel.getGraphics(),i);}
-            for(int i = 0; i < offLanes[3].size(); i++){
-                    offLanes[3].get(i).moveRight();
-                    offLanes[3].get(i).drawRight(panel.getGraphics(),i);}
+                offLanes[1].get(i).drawLeft(panel.getGraphics(), i);
+            }
+            for (int i = 0; i < offLanes[3].size(); i++) {
+                offLanes[3].get(i).moveRight();
+                offLanes[3].get(i).drawRight(panel.getGraphics(), i);
+            }
 
 
-
-
-            if(time%100 == 0) {
+            if (time % 100 == 0) {
                 for (int i = 0; i < 5; i++) { //Maximum chance of 5 new cars added, dependent on the randomizer and the density stat
                     int percentCar = (int) (Math.random() * 100 + 1);
                     if (percentCar <= DENSITY) {
                         int dir = (int) (Math.random() * lanes.length);
                         int lane = (int) (Math.random() * lanes[dir].size());
-                        lanes[dir].get(lane).addCar(new Car(), dir, lane);
+                        Car addedCar = new Car();
+                        if (lane == lanes[dir].size() - 1) {
+                            if (turnChance < (int) (Math.random() * 100 + 1)) {
+                                addedCar.setTurn(1);
+                            }
+                        }
+                        lanes[dir].get(lane).addCar(addedCar, dir, lane);
                         System.out.println("Added a car to the.... " + dir + " direction, and the " + lane + " lane");
 
                     } // adds a car to a random direction and a random lane in that direction
                 }
-
+                if(yellowLightTime == 0){
+                    System.out.println("Got here");
                 if (trafficLightVertical.getLight() == 2) { //green
+                    System.out.println(needChange(1) + " " + (time-prevTime > (MAX_TIME/4)));
                     if (needChange(1) && (time - prevTime > (MAX_TIME / 4))) { // vertical
-                        System.out.println("Vertical Light was green, now switched to red");
-                        trafficLightVertical.setLight(0);
-                        trafficLightHorizontal.setLight(2);
+                        System.out.println("Vertical Light was green, now switched to yellow");
+                        trafficLightVertical.setLight(1);
+                        //trafficLightHorizontal.setLight(2);
                         setIsGreen(0, false);
-                        setIsGreen(1, true);
                         setIsGreen(2, false);
-                        setIsGreen(3, true);
                         prevTime = time;
                     } else {
                         //removeCars(0);
                         //removeCars(2);
                     }
                     addWaitTimes();
+
                 } else if (trafficLightHorizontal.getLight() == 2) {//green
+                    System.out.println(needChange(0) + " " + (time-prevTime > (MAX_TIME/4)));
                     if (needChange(0) && (time - prevTime > (MAX_TIME / 4))) {
-                        System.out.println("Horizontal Light was green, now switched to red");
-                        trafficLightHorizontal.setLight(0);
-                        trafficLightVertical.setLight(2);
-                        setIsGreen(0, true);
+                        System.out.println("Horizontal Light was green, now switched to yellow");
+                        trafficLightHorizontal.setLight(1);
+                        //trafficLightVertical.setLight(2);
                         setIsGreen(1, false);
-                        setIsGreen(2, true);
                         setIsGreen(3, false);
                         prevTime = time;
                     } else {
@@ -140,12 +150,39 @@ public class Intersection {
                         //removeCars(3);
                     }
                     addWaitTimes();
+
                 }
             }
-            removeCars(0);
-            removeCars(2);
-            removeCars(1);
-            removeCars(3);
+        }
+            if(yellowLightTime >= 50){
+                if(trafficLightHorizontal.getLight() == 1){
+                    trafficLightHorizontal.setLight(0);
+                    trafficLightVertical.setLight(2);
+                    setIsGreen(0, true);
+                    setIsGreen(1, false);
+                    setIsGreen(2, true);
+                    setIsGreen(3, false);
+                }
+                else if(trafficLightVertical.getLight() == 1){
+                    trafficLightHorizontal.setLight(2);
+                    trafficLightVertical.setLight(0);
+                    setIsGreen(0, false);
+                    setIsGreen(1, true);
+                    setIsGreen(2, false);
+                    setIsGreen(3, true);
+                }
+                yellowLightTime = 0;
+            }
+            if(trafficLightVertical.getLight() != 1 && trafficLightHorizontal.getLight() != 1) {
+                removeCars(0);
+                removeCars(2);
+                removeCars(1);
+                removeCars(3);
+            }
+            else{
+                yellowLightTime++;
+            }
+
             time++;
             Thread.sleep(10);
         }
@@ -199,7 +236,13 @@ public class Intersection {
             if(lanes[dir].get(i).getSize() > 0 && lanes[dir].get(i).getCar(0) != null && lanes[dir].get(i).shouldRemove(dir)) {
                 waitList.add(lanes[dir].get(i).getCar(0).getWaitTime());
                 System.out.println("Removed the car in direction " + dir + " and lane " + i + " with wait time " + lanes[dir].get(i).getCar(0).getWaitTime());
-                offLanes[dir].add(lanes[dir].get(i).removeCar());
+                if(lanes[dir].get(i).getCar(0).getTurn() == 0)
+                    offLanes[dir].add(lanes[dir].get(i).removeCar());
+                else if(lanes[dir].get(i).getCar(0).getTurn() == 1)
+                    if(dir == 0)
+                        offLanes[3].add(lanes[dir].get(i).removeCar());
+                    else
+                        offLanes[dir-1].add(lanes[dir].get(i).removeCar());
             }
         }
     }
