@@ -154,7 +154,7 @@ public class Intersection {
                 }
             }
         }
-            if(yellowLightTime >= 50){
+            if(yellowLightTime >= 75){
                 if(trafficLightHorizontal.getLight() == 1){
                     trafficLightHorizontal.setLight(0);
                     trafficLightVertical.setLight(2);
