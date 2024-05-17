@@ -236,6 +236,9 @@ public class Intersection {
             if(lanes[dir].get(i).getSize() > 0 && lanes[dir].get(i).getCar(0) != null && lanes[dir].get(i).shouldRemove(dir)) {
                 waitList.add(lanes[dir].get(i).getCar(0).getWaitTime());
                 System.out.println("Removed the car in direction " + dir + " and lane " + i + " with wait time " + lanes[dir].get(i).getCar(0).getWaitTime());
+                if(offLanes[dir].size() > 10){
+                    offLanes[dir].remove(0);
+                }
                 if(lanes[dir].get(i).getCar(0).getTurn() == 0)
                     offLanes[dir].add(lanes[dir].get(i).removeCar());
                 else if(lanes[dir].get(i).getCar(0).getTurn() == 1)
