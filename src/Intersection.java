@@ -183,6 +183,8 @@ public class Intersection {
                 yellowLightTime++;
             }
 
+            drawLights(trafficLightHorizontal.getLight(),trafficLightVertical.getLight());
+
             time++;
             Thread.sleep(10);
         }
@@ -281,5 +283,31 @@ public class Intersection {
         for(int i = 0; i < lanes[lane].size(); i++){
             lanes[lane].get(i).setIsGreen(b);
         }
+    }
+
+    private void drawLights(int a, int b){
+        Graphics g = panel.getGraphics();
+
+        switch(a){
+            case 0: g.setColor(Color.RED);
+            break;
+            case 1: g.setColor(Color.ORANGE);
+            break;
+            case 2: g.setColor(Color.green);
+        }
+
+        g.fillOval(387,397,6,6);
+        g.fillOval(407,397,6,6);
+        switch(b){
+            case 0: g.setColor(Color.RED);
+                break;
+            case 1: g.setColor(Color.ORANGE);
+                break;
+            case 2: g.setColor(Color.green);
+        }
+        g.fillOval(397,387,6,6);
+        g.fillOval(397,407,6,6);
+        g.setColor(Color.BLACK.brighter());
+        g.fillRoundRect(390,390,20,20,5,5);
     }
 }
