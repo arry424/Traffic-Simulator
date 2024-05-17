@@ -26,7 +26,7 @@ public class Intersection {
     private final int MAX_TIME = 100;
     private final int RATIO = 2;
     private final int DENSITY = 50;
-    private final int numLanes = 2;
+    private final int numLanes = 3;
     private final int turnChance = 50;
 
     /**

@@ -63,7 +63,7 @@ public class Lane {
             }
         else {
             for(int i = 0; i< carLane.size(); i++){
-                if(carLane.get(i).getYLoc()  >= 530+ i*(100))
+                if(carLane.get(i).getYLoc()  >= 530+45+ i*(100))
                     carLane.get(i).moveUp();
             }}
         for(Car c: carLane)
@@ -77,7 +77,7 @@ public class Lane {
                 }
             else {
                 for (int i = 0; i < carLane.size(); i++) {
-                    if (carLane.get(i).getYLoc() <= 270 - i * (100))
+                    if (carLane.get(i).getYLoc() <= 270-45 - i * (100))
                         carLane.get(i).moveDown();
                 }}
                 for (Car c : carLane)
@@ -91,7 +91,7 @@ public class Lane {
                     }
            else {
                     for (int i = 0; i < carLane.size(); i++) {
-                        if (carLane.get(i).getXLoc()  >= 530+ i * (100))
+                        if (carLane.get(i).getXLoc()  >= 530+ +45 +i * (100))
                             carLane.get(i).moveLeft();
                     }}
 
@@ -106,7 +106,7 @@ public class Lane {
                     }
            else {
                 for (int i = 0; i < carLane.size(); i++) {
-                        if (carLane.get(i).getXLoc()  <= 270- i * (100))
+                        if (carLane.get(i).getXLoc()  <= 270- 45 -i * (100))
                             carLane.get(i).moveRight();
                     }
            }
